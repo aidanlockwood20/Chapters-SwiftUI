@@ -4,11 +4,11 @@ import SwiftData
 struct LogCheckInView: View {
     
     var body: some View {
-        CheckInForm( previewCheckInImage: UIImage(systemName: "person.fill")!)
+        CheckInForm()
     }
 }
 
 #Preview {
-    CheckInForm(previewCheckInImage: UIImage(systemName: "person.fill")!)
+    CheckInForm()
         .modelContainer(previewContainer)
 }

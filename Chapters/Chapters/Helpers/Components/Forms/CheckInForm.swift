@@ -5,7 +5,6 @@ import SwiftData
 struct CheckInForm: View {
     
     @State var checkInInput = CheckInInput()
-    @State var previewCheckInImage: UIImage
     
     var body: some View {
         AppBackgroundContainer {
@@ -23,7 +22,6 @@ struct CheckInForm: View {
                             PhotosPicker(selection: $checkInInput.checkInPhoto) {
                                 Text("Add a Photo (optional)")
                             }
-                            Image(uiImage: previewCheckInImage)
                         }
                         .padding(20)
                     }
@@ -42,23 +40,13 @@ struct CheckInForm: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 16)
-                .onChange(of: checkInInput.checkInPhoto) { _, _ in
-                    Task {
-                        if let _ = checkInInput.checkInPhoto,
-                           let data = try? await checkInInput.checkInPhoto?.loadTransferable(type: Data.self) {
-                            if let image = UIImage(data: data) {
-                                // assign this to where the photo should be previewed
-                                previewCheckInImage = image
-                            }
-                        }
-                    }
-                }
+                
             }
         }
     }
 }
 
 #Preview {
-    CheckInForm(previewCheckInImage: UIImage(systemName: "person.fill")!)
+    CheckInForm()
         .modelContainer(previewContainer)
 }
