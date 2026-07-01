@@ -1,10 +1,16 @@
 import SwiftUI
 
 struct SummaryMetricsView: View {
-    
+    @Environment(DashboardViewModel.self) private var dashboardViewModel
+
     let metric: DashboardMetrics
     
     var body: some View {
-        Text("Summary Metrics View for: \(metric.displayName)")
+        NavigationStack {
+            Text("Summary Metrics View for: \(metric.displayName)")
+                .closeSheetToolbar(action: {
+                    dashboardViewModel.displayMetricsSheet = nil
+                })
+        }
     }
 }
