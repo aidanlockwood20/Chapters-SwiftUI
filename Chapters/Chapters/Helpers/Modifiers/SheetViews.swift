@@ -13,6 +13,9 @@ struct SheetViews: ViewModifier {
             .sheet(item: $dashboardVM.displayChapterSheet) {
                 ChapterDetailView(chapter: $0)
             }
+            .sheet(item: $dashboardVM.showCheckInDetailSheet) {
+                CheckInDetailView(checkin: $0)
+            }
             .sheet(isPresented: $dashboardVM.displayCheckInSheet) {
                 LogCheckInView()
             }

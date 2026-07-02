@@ -15,6 +15,8 @@ struct NavDestinations: ViewModifier {
                         ChapterListView()
                     case .stats:
                         UserStatsListView()
+                    case .checkIn:
+                        CheckInListView()
                     }
                 }
             }

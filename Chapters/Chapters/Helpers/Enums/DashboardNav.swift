@@ -4,4 +4,5 @@ enum DashboardNav: Hashable {
     case main
     case chapters
     case stats
+    case checkIn
 }

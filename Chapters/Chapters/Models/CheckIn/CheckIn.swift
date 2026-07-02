@@ -10,6 +10,7 @@ final class CheckIn {
     var diaryNotes: String = ""
     var energyLevel: Int = 0
     var sleepQuality: Int = 0
+    var createdAt: Date = Date()
     
     @Attribute(.externalStorage)
     var checkInPhoto: Data? = nil

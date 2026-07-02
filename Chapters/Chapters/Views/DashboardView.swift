@@ -7,6 +7,7 @@ struct DashboardView: View {
         ScrollView {
             PageTitle()
             LogCheckInCard()
+            RecentCheckIns()
             RecentChapters()
             UserStats()
         }

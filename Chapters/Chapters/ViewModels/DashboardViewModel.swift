@@ -5,6 +5,7 @@ import Observation
 final class DashboardViewModel {
     var navigationPath: [DashboardNav] = []
     
+    var showCheckInDetailSheet: CheckIn?
     var displayCheckInSheet: Bool = false
     var displayChapterSheet: Chapter?
     var displayMetricsSheet: DashboardMetrics?
