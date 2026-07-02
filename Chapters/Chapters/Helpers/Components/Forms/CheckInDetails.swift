@@ -1,6 +1,11 @@
 import SwiftUI
+import SwiftData
 
 struct CheckInDetails: View {
+    
+    @Query var chapters: [Chapter]
+    
+    @State var selectedChapter: Chapter?
     
     @Binding var checkInTitle: String
     @Binding var notesNavPath: [CheckInNavigation]
@@ -15,6 +20,7 @@ struct CheckInDetails: View {
                 }
                 HStack {
                     Text("Add some notes (optional)")
+                        .bold()
                     Spacer()
                     Button(action: {
                         notesNavPath.append(.noteTaking)
@@ -24,7 +30,15 @@ struct CheckInDetails: View {
                     })
                 }
                 HStack {
-                    
+                    Text("Add to an Existing Chapter")
+                        .bold()
+                    Spacer()
+                    Picker("Add to an Existing Chapter", selection: $selectedChapter) {
+                        ForEach(chapters, id: \.self) { chapter in
+                            Text(chapter.title)
+                        }
+                    }
+
                 }
             }
             .padding(20)
