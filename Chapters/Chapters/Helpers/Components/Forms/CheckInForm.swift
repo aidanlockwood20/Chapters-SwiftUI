@@ -5,8 +5,8 @@ import SwiftData
 struct CheckInForm: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
     
-    @State var checkInInput = CheckInInput()
-    
+    @State var checkInInput: CheckInInput = CheckInInput()
+    @State private var selectedImage: Image?
     @State private var checkInNavPath: [CheckInNavigation] = []
     
     var body: some View {
@@ -26,6 +26,13 @@ struct CheckInForm: View {
                                 PhotosPicker(selection: $checkInInput.checkInPhoto) {
                                     Text("Add a Photo (optional)")
                                 }
+                                if let selectedImage {
+                                    selectedImage
+                                        .resizable()
+                                        .scaledToFit()
+                                        .clipShape(ConcentricRectangle(corners: .concentric, isUniform: true))
+                                        .frame(maxWidth: .infinity)
+                                }
                             }
                             .padding(20)
                         }
@@ -42,8 +49,20 @@ struct CheckInForm: View {
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 16)
                 }
+                .scrollClipDisabled()
                 .navigationDestination(for: CheckInNavigation.self) { _ in
                     CheckInNotesView(checkInNotes: $checkInInput.diaryNotes)
+                }
+            }
+        }
+        .onChange(of: checkInInput.checkInPhoto) { _, newItem in
+            Task {
+                if let newItem {
+                    if let loadImage = try? await newItem.loadTransferable(type: Image.self) {
+                        selectedImage = loadImage
+                    } else {
+                        print("Failed to load image")
+                    }
                 }
             }
         }

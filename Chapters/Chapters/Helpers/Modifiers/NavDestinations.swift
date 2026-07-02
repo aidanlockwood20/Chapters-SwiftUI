@@ -6,9 +6,6 @@ struct NavDestinations: ViewModifier {
             .navigationDestination(for: Chapter.self) { chapter in
                 ChapterDetailView(chapter: chapter)
             }
-            .navigationDestination(for: Chapter.self) { chapter in
-                ChapterDetailView(chapter: chapter)
-            }
             .navigationDestination(for: DashboardNav.self) { route in
                 AppBackgroundContainer {
                     switch route {
