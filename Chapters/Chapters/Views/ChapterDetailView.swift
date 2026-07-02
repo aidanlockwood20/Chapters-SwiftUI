@@ -8,9 +8,9 @@ struct ChapterDetailView: View {
     var body: some View {
         NavigationStack {
             Text("Chapter Detail View")
-                .closeSheetToolbar(action: {
+                .closeSheetToolbar {
                     dashboardViewModel.displayChapterSheet = nil
-                })
+                }
         }
     }
 }

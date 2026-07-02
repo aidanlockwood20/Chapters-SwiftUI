@@ -13,7 +13,6 @@ struct UserStatsButton: View {
             VStack {
                 Text(metric.displayName)
                     .font(.subheadline)
-
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 4)

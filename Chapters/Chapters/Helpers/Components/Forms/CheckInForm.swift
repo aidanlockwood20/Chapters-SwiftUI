@@ -3,6 +3,7 @@ import PhotosUI
 import SwiftData
 
 struct CheckInForm: View {
+    @Environment(DashboardViewModel.self) private var dashboardViewModel
     
     @State var checkInInput = CheckInInput()
     
@@ -28,15 +29,12 @@ struct CheckInForm: View {
                     .logCheckInCardStyle(horizontalPadding: 0)
                     .padding(.bottom, 16)
                     Button(action: {
-                        
+                        dashboardViewModel.displayCheckInSheet.toggle()
                     }, label: {
                         Text("Complete Check In")
+                            .bold()
                     })
-                    .frame(maxWidth: .infinity, minHeight: 40)
-                    .background(.tealButtonColour.gradient)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 34, style: .continuous))
-                    .padding(.bottom, 16)
+                    .submitButtonStyle()
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 16)
@@ -49,4 +47,5 @@ struct CheckInForm: View {
 #Preview {
     CheckInForm()
         .modelContainer(previewContainer)
+        .environment(DashboardViewModel())
 }

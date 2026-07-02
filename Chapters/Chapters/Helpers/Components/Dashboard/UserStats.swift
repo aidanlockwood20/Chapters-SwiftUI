@@ -8,9 +8,7 @@ struct UserStats: View {
         return colourScheme == .dark ? .white : .black
     }
     
-    var body: some View {
-        @Bindable var dashboardVM = dashboardViewModel
-        
+    var body: some View {        
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Button(action: {

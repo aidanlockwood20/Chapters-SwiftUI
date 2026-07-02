@@ -5,9 +5,7 @@ struct ChapterPreviewCard: View {
     
     let chapter: Chapter
     
-    var body: some View {
-        @Bindable var dashboardVM = dashboardViewModel
-        
+    var body: some View {        
         Button(action: {
             dashboardViewModel.displayChapterSheet = chapter
         }, label: {

@@ -3,9 +3,7 @@ import SwiftUI
 struct LogCheckInCard: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
     
-    var body: some View {
-        @Bindable var dashboardVM = dashboardViewModel
-        
+    var body: some View {        
         VStack {
             Text("What's on your mind?")
                 .font(.title2)

@@ -8,9 +8,9 @@ struct LogCheckInView: View {
     var body: some View {
         NavigationStack {
             CheckInForm()
-                .closeSheetToolbar(action: {
+                .closeSheetToolbar {
                     dashboardViewModel.displayCheckInSheet.toggle()
-                })
+                }
         }
     }
 }

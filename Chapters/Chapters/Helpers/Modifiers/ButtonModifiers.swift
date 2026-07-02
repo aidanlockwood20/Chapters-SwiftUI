@@ -11,6 +11,17 @@ struct ChapterPreviewCardStyle: ViewModifier {
     }
 }
 
+struct SubmitButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(maxWidth: .infinity, minHeight: 50)
+            .background(.tealButtonColour.gradient)
+            .foregroundStyle(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 34, style: .continuous))
+            .padding(.bottom, 16)
+    }
+}
+
 struct CheckInCardText: ViewModifier {
     func body(content: Content) -> some View {
         content

@@ -9,6 +9,10 @@ extension View {
         self.modifier(UserStatsCardStyle())
     }
     
+    func submitButtonStyle() -> some View {
+        self.modifier(SubmitButtonStyle())
+    }
+    
     func logCheckInCardStyle(horizontalPadding: CGFloat) -> some View {
         self.modifier(LogCheckInCardStyle(horizontalPadding: horizontalPadding))
     }

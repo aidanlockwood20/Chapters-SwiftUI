@@ -6,6 +6,7 @@ struct ContentView: View {
     
     var body: some View {
         @Bindable var dashboardVM = dashboardViewModel
+        
         NavigationStack(path: $dashboardVM.navigationPath) {
             AppBackgroundContainer {
                 DashboardView()

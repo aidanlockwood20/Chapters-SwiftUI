@@ -8,9 +8,9 @@ struct SummaryMetricsView: View {
     var body: some View {
         NavigationStack {
             Text("Summary Metrics View for: \(metric.displayName)")
-                .closeSheetToolbar(action: {
+                .closeSheetToolbar {
                     dashboardViewModel.displayMetricsSheet = nil
-                })
+                }
         }
     }
 }
