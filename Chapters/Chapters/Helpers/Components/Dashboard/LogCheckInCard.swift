@@ -23,9 +23,6 @@ struct LogCheckInCard: View {
             .padding()
         }
         .logCheckInCardStyle(horizontalPadding: 32)
-        .sheet(isPresented: $dashboardVM.displayCheckInSheet) {
-            LogCheckInView()
-        }
         
     }
 }

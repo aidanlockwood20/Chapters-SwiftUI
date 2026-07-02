@@ -17,9 +17,7 @@ struct DashboardView: View {
         .padding(.top, 24)
         .padding(.horizontal, 12)
         .mainToolbar()
-        .sheet(isPresented: $dashboardVM.displayAccountSettings) {
-            AccountSettingsView()
-        }
+        .sheetViews()
     }
 }
 

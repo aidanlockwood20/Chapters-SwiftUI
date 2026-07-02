@@ -21,8 +21,6 @@ struct ChapterPreviewCard: View {
         })
         .chapterPreviewCard()
         .padding(.trailing)
-        .sheet(item: $dashboardVM.displayChapterSheet) {
-            ChapterDetailView(chapter: $0)
-        }
+
     }
 }

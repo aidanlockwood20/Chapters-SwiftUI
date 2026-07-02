@@ -10,25 +10,8 @@ struct ContentView: View {
             AppBackgroundContainer {
                 DashboardView()
             }
-            .navigationDestination(for: Chapter.self) { chapter in
-                ChapterDetailView(chapter: chapter)
-            }
             .scrollClipDisabled()
-            .navigationDestination(for: Chapter.self) { chapter in
-                ChapterDetailView(chapter: chapter)
-            }
-            .navigationDestination(for: DashboardNav.self) { route in
-                AppBackgroundContainer {
-                    switch route {
-                    case .main:
-                        DashboardView()
-                    case .chapters:
-                        ChapterListView()
-                    case .stats:
-                        UserStatsListView()
-                    }
-                }
-            }
+            .navDestinations()
         }
     }
 }

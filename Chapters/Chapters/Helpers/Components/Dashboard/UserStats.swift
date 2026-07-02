@@ -44,8 +44,5 @@ struct UserStats: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.top)
-        .sheet(item: $dashboardVM.displayMetricsSheet) { metric in
-            SummaryMetricsView(metric: dashboardViewModel.displayMetricsSheet ?? .sleepQuality)
-        }
     }
 }
