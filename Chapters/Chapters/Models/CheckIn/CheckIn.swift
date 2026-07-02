@@ -4,12 +4,12 @@ import Foundation
 @Model
 final class CheckIn {
     var id: UUID = UUID()
-    var moodScore: Int = 0
+    var moodScore: Double = 0
     var moodLabel: String = ""
     var title: String = ""
     var diaryNotes: String = ""
-    var energyLevel: Int = 0
-    var sleepQuality: Int = 0
+    var energyLevel: Double = 0
+    var sleepQuality: Double = 0
     var createdAt: Date = Date()
     
     @Attribute(.externalStorage)
@@ -18,7 +18,7 @@ final class CheckIn {
     var user: User? = nil
     var chapter: Chapter? = nil
     
-    init(id: UUID = UUID(), moodScore: Int, moodLabel: String, title: String, diaryNotes: String, energyLevel: Int, sleepQuality: Int, user: User? = nil, chapter: Chapter? = nil) {
+    init(id: UUID = UUID(), moodScore: Double, moodLabel: String, title: String, diaryNotes: String, energyLevel: Double, sleepQuality: Double, user: User? = nil, chapter: Chapter? = nil, checkInPhoto: Data? = nil) {
         self.id = id
         self.moodScore = moodScore
         self.moodLabel = moodLabel
@@ -28,6 +28,7 @@ final class CheckIn {
         self.sleepQuality = sleepQuality
         self.user = user
         self.chapter = chapter
+        self.checkInPhoto = checkInPhoto
     }
     
     enum CodingKeys: String, CodingKey {

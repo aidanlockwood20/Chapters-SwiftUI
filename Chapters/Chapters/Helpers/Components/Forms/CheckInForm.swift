@@ -6,7 +6,11 @@ struct CheckInForm: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
     
     @State var checkInInput: CheckInInput = CheckInInput()
-    @State private var selectedImage: Image?
+    
+    @State private var displayingImage: UIImage?
+    @State private var selectedImage: PhotosPickerItem?
+    @State private var imageData: Data?
+    
     @State private var checkInNavPath: [CheckInNavigation] = []
     
     var body: some View {
@@ -23,23 +27,36 @@ struct CheckInForm: View {
                         CheckInDetails(checkInTitle: $checkInInput.checkInTitle, notesNavPath: $checkInNavPath)
                         VStack {
                             VStack {
-                                PhotosPicker(selection: $checkInInput.checkInPhoto) {
+                                PhotosPicker(selection: $selectedImage) {
                                     Text("Add a Photo (optional)")
                                 }
-                                if let selectedImage {
-                                    selectedImage
+                                if let displayingImage {
+                                    Image(uiImage: displayingImage)
                                         .resizable()
                                         .scaledToFit()
                                         .clipShape(ConcentricRectangle(corners: .concentric, isUniform: true))
-                                        .frame(maxWidth: .infinity)
                                 }
+                                
                             }
                             .padding(20)
                         }
                         .logCheckInCardStyle(horizontalPadding: 0)
                         .padding(.bottom, 16)
                         Button(action: {
-                            dashboardViewModel.displayCheckInSheet.toggle()
+                            // Create a new CheckIn model with the provided inputs and optional image
+                            let checkInRecord = CheckIn(
+                                id: UUID(),
+                                moodScore: checkInInput.moodScore,
+                                moodLabel: checkInInput.moodLabel.rawValue,
+                                title: checkInInput.checkInTitle,
+                                diaryNotes: checkInInput.diaryNotes,
+                                energyLevel: checkInInput.energyLevel,
+                                sleepQuality: checkInInput.sleepQuality,
+                                user: nil,
+                                chapter: nil,
+                                checkInPhoto: imageData
+                            )
+                            
                         }, label: {
                             Text("Complete Check In")
                                 .bold()
@@ -55,15 +72,18 @@ struct CheckInForm: View {
                 }
             }
         }
-        .onChange(of: checkInInput.checkInPhoto) { _, newItem in
+        .onChange(of: selectedImage) { _, _ in
             Task {
-                if let newItem {
-                    if let loadImage = try? await newItem.loadTransferable(type: Image.self) {
-                        selectedImage = loadImage
-                    } else {
-                        print("Failed to load image")
+                if let selectedImage,
+                   let data = try? await selectedImage.loadTransferable(type: Data.self) {
+                    imageData = data
+                    
+                    if let image = UIImage(data: data) {
+                        displayingImage = image
                     }
                 }
+                
+                selectedImage = nil
             }
         }
     }

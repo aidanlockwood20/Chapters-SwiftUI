@@ -8,6 +8,4 @@ struct CheckInInput {
     var diaryNotes: String = ""
     var energyLevel: Double = 0
     var sleepQuality: Double = 0
-    var checkInPhoto: PhotosPickerItem?
-    
 }
