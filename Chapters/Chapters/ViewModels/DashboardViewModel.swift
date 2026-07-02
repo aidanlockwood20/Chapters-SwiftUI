@@ -8,6 +8,7 @@ final class DashboardViewModel {
     var displayCheckInSheet: Bool = false
     var displayChapterSheet: Chapter?
     var displayMetricsSheet: DashboardMetrics?
+    var displayAccountSettings: Bool = false
     
     func navTo(to toPath: DashboardNav) {
         navigationPath.append(toPath)
