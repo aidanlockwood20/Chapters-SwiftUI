@@ -18,7 +18,14 @@ struct ContentView: View {
 }
 
 #Preview {
+    let context = ModelContext(previewContainer)
+    let checkInViewModel = CheckInViewModel(modelContext: context)
+    
     ContentView()
         .modelContainer(previewContainer)
         .environment(DashboardViewModel())
+        .environment(checkInViewModel)
+        .environment(ChapterViewModel())
+        .environment(MetricsViewModel())
+        .environment(SettingsViewModel())
 }
