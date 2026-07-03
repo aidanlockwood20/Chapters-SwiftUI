@@ -39,22 +39,8 @@ struct CheckInForm: View {
                 }
                 .scrollClipDisabled()
                 .navigationDestination(for: CheckInNavigation.self) { _ in
-                    CheckInNotesView(checkInNotes: $checkInInput.diaryNotes)
+                    CheckInNotesView()
                 }
-            }
-        }
-        .onChange(of: selectedImage) { _, _ in
-            Task {
-                if let selectedImage,
-                   let data = try? await selectedImage.loadTransferable(type: Data.self) {
-                    imageData = data
-                    
-                    if let image = UIImage(data: data) {
-                        displayingImage = image
-                    }
-                }
-                
-                selectedImage = nil
             }
         }
     }
