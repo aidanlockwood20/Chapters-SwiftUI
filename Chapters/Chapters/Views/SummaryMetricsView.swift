@@ -7,10 +7,12 @@ struct SummaryMetricsView: View {
     
     var body: some View {
         NavigationStack {
-            Text("Summary Metrics View for: \(metric.displayName)")
-                .closeSheetToolbar {
-                    dashboardViewModel.displayMetricsSheet = nil
-                }
+            AppBackgroundContainer {
+                Text("Summary Metrics View for: \(metric.displayName)")
+                    .closeSheetToolbar {
+                        dashboardViewModel.displayMetricsSheet = nil
+                    }
+            }
         }
     }
 }

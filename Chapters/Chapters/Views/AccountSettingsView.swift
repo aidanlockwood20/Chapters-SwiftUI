@@ -5,10 +5,12 @@ struct AccountSettingsView: View {
     
     var body: some View {
         NavigationStack {
-            Text("Account Settings View")
-                .closeSheetToolbar {
-                    dashboardViewModel.displayAccountSettings.toggle()
-                }
+            AppBackgroundContainer {
+                Text("Account Settings View")
+                    .closeSheetToolbar {
+                        dashboardViewModel.displayAccountSettings.toggle()
+                    }
+            }
         }
     }
 }

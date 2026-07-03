@@ -7,10 +7,12 @@ struct ChapterDetailView: View {
     
     var body: some View {
         NavigationStack {
-            Text("Chapter Detail View")
-                .closeSheetToolbar {
-                    dashboardViewModel.displayChapterSheet = nil
-                }
+            AppBackgroundContainer {
+                Text("Chapter Detail View")
+                    .closeSheetToolbar {
+                        dashboardViewModel.displayChapterSheet = nil
+                    }
+            }
         }
     }
 }

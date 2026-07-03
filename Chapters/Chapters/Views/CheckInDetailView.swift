@@ -7,11 +7,13 @@ struct CheckInDetailView: View {
     
     var body: some View {
         NavigationStack {
-            Text("Check In Detail View")
-                .closeSheetToolbar {
-                    dashboardViewModel.showCheckInDetailSheet = nil
-                }
+            AppBackgroundContainer {
+                Text("Check In Detail View")
+                    .closeSheetToolbar {
+                        dashboardViewModel.showCheckInDetailSheet = nil
+                    }
+
+            }
         }
-        
     }
 }
