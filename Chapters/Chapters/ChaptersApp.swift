@@ -6,7 +6,7 @@ struct ChaptersApp: App {
     
     @State private var dashboardViewModel = DashboardViewModel()
     @State private var chapterViewModel = ChapterViewModel()
-    @State private var checkInViewModel = CheckInViewModel()
+    @State private var checkInViewModel = CheckInViewModel(modelContext: ModelContext(previewContainer))
     @State private var metricsViewModel = MetricsViewModel()
     @State private var settingsViewModel = SettingsViewModel()
     

@@ -14,13 +14,17 @@ struct LogCheckInView: View {
     }
 }
 
-#Preview {
+#Preview("Check In Form") {
+    let context = ModelContext(previewContainer)
+    let checkInViewModel = CheckInViewModel(modelContext: context)
+    
     CheckInForm()
         .modelContainer(previewContainer)
         .environment(DashboardViewModel())
+        .environment(checkInViewModel)
 }
 
-#Preview {
+#Preview("Content View") {
     ContentView()
         .modelContainer(previewContainer)
         .environment(DashboardViewModel())

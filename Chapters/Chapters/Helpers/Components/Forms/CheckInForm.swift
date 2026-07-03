@@ -95,7 +95,10 @@ struct CheckInForm: View {
 }
 
 #Preview {
+    let context = ModelContext(previewContainer)
+    let checkInViewModel = CheckInViewModel(modelContext: context)
+    
     CheckInForm()
         .modelContainer(previewContainer)
-        .environment(DashboardViewModel())
+        .environment(checkInViewModel)
 }
