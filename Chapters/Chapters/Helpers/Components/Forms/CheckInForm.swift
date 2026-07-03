@@ -39,6 +39,8 @@ struct CheckInForm: View {
                             action: submitCheckIn
                         )
                     }
+                    .scrollContentBackground(.hidden)
+                    .background(.backgroundColour)
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 16)
                 }
