@@ -29,6 +29,6 @@ struct CheckInSavingView: View {
     }
 }
 
-#Preview {
+#Preview("Check In Saving View") {
     CheckInSavingView()
 }

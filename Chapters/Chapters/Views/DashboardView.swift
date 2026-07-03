@@ -19,8 +19,8 @@ struct DashboardView: View {
     }
 }
 
-#Preview {
+#Preview("Main View") {
     ContentView()
         .modelContainer(previewContainer)
-        .environment(DashboardViewModel())
+        .withPreviewEnvironment()
 }

@@ -72,11 +72,8 @@ struct CheckInForm: View {
     }
 }
 
-#Preview {
-    let context = ModelContext(previewContainer)
-    let checkInViewModel = CheckInViewModel(modelContext: context)
-    
+#Preview("Check In Form") {
     CheckInForm()
         .modelContainer(previewContainer)
-        .environment(checkInViewModel)
+        .withPreviewEnvironment()
 }

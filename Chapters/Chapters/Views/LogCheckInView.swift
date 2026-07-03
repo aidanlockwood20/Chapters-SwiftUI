@@ -27,12 +27,11 @@ struct LogCheckInView: View {
     
     CheckInForm()
         .modelContainer(previewContainer)
-        .environment(DashboardViewModel())
-        .environment(checkInViewModel)
+        .withPreviewEnvironment()
 }
 
 #Preview("Content View") {
     ContentView()
         .modelContainer(previewContainer)
-        .environment(DashboardViewModel())
+        .withPreviewEnvironment()
 }
