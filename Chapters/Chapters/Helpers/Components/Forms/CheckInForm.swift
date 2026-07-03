@@ -62,6 +62,8 @@ struct CheckInForm: View {
                             
                         }, label: {
                             Text("Complete Check In")
+                                .colorInvert()
+                                .foregroundStyle(Color.primary)
                                 .bold()
                         })
                         .submitButtonStyle()
