@@ -6,19 +6,18 @@ struct ChaptersApp: App {
     
     @State private var dashboardViewModel = DashboardViewModel()
     @State private var chapterViewModel = ChapterViewModel()
-    @State private var checkInViewModel = CheckInViewModel(modelContext: ModelContext(previewContainer))
+    @State private var checkInViewModel = CheckInViewModel(modelContext: ModelContext(mainContainer))
     @State private var metricsViewModel = MetricsViewModel()
     @State private var settingsViewModel = SettingsViewModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(previewContainer)
+                .modelContainer(mainContainer)
                 .environment(dashboardViewModel)
                 .environment(chapterViewModel)
                 .environment(checkInViewModel)
                 .environment(metricsViewModel)
         }
-        
     }
 }

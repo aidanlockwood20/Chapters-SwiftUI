@@ -4,10 +4,14 @@ import SwiftData
 
 struct CheckInForm: View {
     @Environment(CheckInViewModel.self) private var checkInViewModel
-        
-    @State private var displayingImage: UIImage?
-    @State private var selectedImage: PhotosPickerItem?
     @State private var imageData: Data?
+    @State private var saveErrorIsPresented: Bool = false
+
+    let onSaveComplete: () -> Void
+
+    init(onSaveComplete: @escaping () -> Void = {}) {
+        self.onSaveComplete = onSaveComplete
+    }
     
     var body: some View {
         @Bindable var checkInVM = checkInViewModel
@@ -29,18 +33,48 @@ struct CheckInForm: View {
                         }
                         .logCheckInCardStyle(horizontalPadding: 0)
                         .padding(.bottom, 16)
-                        SubmitButton(labelText: "Complete Check In") {
-                            
-                            checkInViewModel.saveCheckIn(imageData: imageData)
-                        }
+                        SubmitButton(
+                            labelText: "Complete Check In",
+                            isLoading: checkInViewModel.isSaving,
+                            action: submitCheckIn
+                        )
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 16)
                 }
                 .scrollClipDisabled()
-                .navigationDestination(for: CheckInNavigation.self) { _ in
-                    CheckInNotesView()
+                .navigationDestination(for: CheckInNavigation.self) { destination in
+                    switch destination {
+                    case .noteTaking:
+                        CheckInNotesView()
+                    case .savingProgress:
+                        CheckInSavingView()
+                    case .mainForm:
+                        EmptyView()
+                    }
                 }
+            }
+        }
+        .alert("Unable to Save Check-In", isPresented: $saveErrorIsPresented) {
+        } message: {
+            Text(checkInViewModel.errorMessage ?? "An unexpected error occurred while saving your check-in.")
+        }
+    }
+
+    private func submitCheckIn() {
+        guard !checkInViewModel.isSaving else { return }
+
+        checkInViewModel.checkInNavPath.append(.savingProgress)
+
+        Task {
+            let didSave = await checkInViewModel.saveCheckIn(imageData: imageData)
+
+            if didSave {
+                checkInViewModel.checkInNavPath.removeAll()
+                onSaveComplete()
+            } else {
+                checkInViewModel.checkInNavPath.removeAll { $0 == .savingProgress }
+                saveErrorIsPresented = true
             }
         }
     }

@@ -2,19 +2,19 @@ import SwiftUI
 
 struct CloseSheetToolbar: ViewModifier {
     
+    let isDisabled: Bool
     let action: (() -> Void)
     
     func body(content: Content) -> some View {
         content
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        action()
-                    }, label: {
+                    Button(action: action) {
                         Image(systemName: "xmark")
                             .bold()
-                            .foregroundStyle(Color.white)
-                    })
+                            .foregroundStyle(.white)
+                    }
+                    .disabled(isDisabled)
                     .buttonStyle(.borderedProminent)
                     .tint(Color.red)
                 }

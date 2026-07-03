@@ -3,14 +3,21 @@ import SwiftData
 
 struct LogCheckInView: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
+    @Environment(CheckInViewModel.self) private var checkInViewModel
     
     var body: some View {
         NavigationStack {
-            CheckInForm()
-                .closeSheetToolbar {
-                    dashboardViewModel.displayCheckInSheet.toggle()
+            CheckInForm(onSaveComplete: dismissSheet)
+                .closeSheetToolbar(isDisabled: checkInViewModel.isSaving) {
+                    dismissSheet()
                 }
         }
+        .interactiveDismissDisabled(checkInViewModel.isSaving)
+    }
+
+    private func dismissSheet() {
+        checkInViewModel.checkInNavPath.removeAll()
+        dashboardViewModel.displayCheckInSheet = false
     }
 }
 

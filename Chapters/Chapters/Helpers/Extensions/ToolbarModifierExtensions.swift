@@ -1,8 +1,11 @@
 import SwiftUI
 
 extension View {
-    func closeSheetToolbar(action: @escaping (() -> Void)) -> some View {
-        self.modifier(CloseSheetToolbar(action: action))
+    func closeSheetToolbar(
+        isDisabled: Bool = false,
+        action: @escaping (() -> Void)
+    ) -> some View {
+        self.modifier(CloseSheetToolbar(isDisabled: isDisabled, action: action))
     }
     
     func mainToolbar() -> some View {
