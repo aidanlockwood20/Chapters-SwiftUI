@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChapterDetailView: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
+    @Environment(ChapterViewModel.self) private var chapterViewModel
     
     let chapter: Chapter
     

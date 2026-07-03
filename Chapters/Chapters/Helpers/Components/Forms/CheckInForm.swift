@@ -4,6 +4,7 @@ import SwiftData
 
 struct CheckInForm: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
+    @Environment(CheckInViewModel.self) private var checkInViewModel
     
     @State var checkInInput: CheckInInput = CheckInInput()
     
@@ -56,6 +57,8 @@ struct CheckInForm: View {
                                 chapter: nil,
                                 checkInPhoto: imageData
                             )
+                            
+                            
                             
                         }, label: {
                             Text("Complete Check In")

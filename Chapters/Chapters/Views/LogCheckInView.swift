@@ -2,7 +2,6 @@ import SwiftUI
 import SwiftData
 
 struct LogCheckInView: View {
-    
     @Environment(DashboardViewModel.self) private var dashboardViewModel
     
     var body: some View {

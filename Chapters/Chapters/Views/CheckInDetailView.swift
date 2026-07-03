@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CheckInDetailView: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
+    @Environment(CheckInViewModel.self) private var checkInViewModel
     
     let checkin: CheckIn
     

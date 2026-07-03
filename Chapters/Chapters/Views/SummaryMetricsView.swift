@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SummaryMetricsView: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
+    @Environment(MetricsViewModel.self) private var metricsViewModel
 
     let metric: DashboardMetrics
     
