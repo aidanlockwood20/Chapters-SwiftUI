@@ -1,16 +1,17 @@
 import SwiftUI
 
 struct RecoverySection: View {
-    
-    @Binding var checkInInput: CheckInInput
-    
+    @Environment(CheckInViewModel.self) private var checkInViewModel
+        
     var body: some View {
+        @Bindable var checkInVM = checkInViewModel
+        
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 CheckInFormCardTitle(cardTitle: "Recovery")
-                CheckInFormSlider(sliderValue: $checkInInput.energyLevel, sliderDescription: "How would you rate your Energy Level")
+                CheckInFormSlider(sliderValue: $checkInVM.checkInInstance.energyLevel, sliderDescription: "How would you rate your Energy Level")
                 .padding(.bottom, 8)
-                CheckInFormSlider(sliderValue: $checkInInput.sleepQuality, sliderDescription: "How would you rate your Sleep Quality?")
+                CheckInFormSlider(sliderValue: $checkInVM.checkInInstance.sleepQuality, sliderDescription: "How would you rate your Sleep Quality?")
             }
             .padding(20)
         }

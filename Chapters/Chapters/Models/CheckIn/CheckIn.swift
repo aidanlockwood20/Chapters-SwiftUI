@@ -5,7 +5,7 @@ import Foundation
 final class CheckIn {
     var id: UUID = UUID()
     var moodScore: Double = 0
-    var moodLabel: String = ""
+    var moodLabel: MoodSelection = MoodSelection.happy
     var title: String = ""
     var diaryNotes: String = ""
     var energyLevel: Double = 0
@@ -18,7 +18,7 @@ final class CheckIn {
     var user: User? = nil
     var chapter: Chapter? = nil
     
-    init(id: UUID = UUID(), moodScore: Double, moodLabel: String, title: String, diaryNotes: String, energyLevel: Double, sleepQuality: Double, user: User? = nil, chapter: Chapter? = nil, checkInPhoto: Data? = nil) {
+    init(id: UUID = UUID(), moodScore: Double, moodLabel: MoodSelection, title: String, diaryNotes: String, energyLevel: Double, sleepQuality: Double, user: User? = nil, chapter: Chapter? = nil, checkInPhoto: Data? = nil) {
         self.id = id
         self.moodScore = moodScore
         self.moodLabel = moodLabel

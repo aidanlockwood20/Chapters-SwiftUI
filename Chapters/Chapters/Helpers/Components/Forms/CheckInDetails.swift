@@ -2,28 +2,26 @@ import SwiftUI
 import SwiftData
 
 struct CheckInDetails: View {
+    @Environment(CheckInViewModel.self) private var checkInViewModel
     
     @Query var chapters: [Chapter]
-    
-    @State var selectedChapter: Chapter?
-    
-    @Binding var checkInTitle: String
-    @Binding var notesNavPath: [CheckInNavigation]
-    
+            
     var body: some View {
+        @Bindable var checkInVM = checkInViewModel
+        
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 VStack(alignment: .leading) {
                     Text("Check In Title (optional)")
                         .fontWeight(.semibold)
-                    TextField("Title", text: $checkInTitle)
+                    TextField("Title", text: $checkInVM.checkInInstance.checkInTitle)
                 }
                 HStack {
                     Text("Add some notes (optional)")
                         .bold()
                     Spacer()
                     Button(action: {
-                        notesNavPath.append(.noteTaking)
+                        checkInViewModel.checkInNavPath.append(.noteTaking)
                     }, label: {
                         Image(systemName: "chevron.right")
                             .foregroundStyle(.textLowContrast)
@@ -33,7 +31,7 @@ struct CheckInDetails: View {
                     Text("Add to an Existing Chapter")
                         .bold()
                     Spacer()
-                    Picker("Add to an Existing Chapter", selection: $selectedChapter) {
+                    Picker("Add to an Existing Chapter", selection: $checkInVM.selectedChapter) {
                         ForEach(chapters, id: \.self) { chapter in
                             Text(chapter.title)
                         }

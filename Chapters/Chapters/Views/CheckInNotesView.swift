@@ -1,11 +1,12 @@
 import SwiftUI
 
 struct CheckInNotesView: View {
-    
-    @Binding var checkInNotes: String
-    
+    @Environment(CheckInViewModel.self) private var checkInViewModel
+        
     var body: some View {
-        TextEditor(text: $checkInNotes)
+        @Bindable var checkInVM = checkInViewModel
+
+        TextEditor(text: $checkInVM.checkInInstance.diaryNotes)
             .padding(.horizontal, 12)
             .navigationTitle("Check in Notes")
     }
