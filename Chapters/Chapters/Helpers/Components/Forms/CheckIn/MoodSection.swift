@@ -30,3 +30,8 @@ struct MoodSection: View {
         .padding(.bottom, 16)
     }
 }
+
+#Preview {
+    MoodSection()
+        .withPreviewEnvironment()
+}
