@@ -35,6 +35,8 @@ struct CheckInDetailView: View {
                 .closeSheetToolbar {
                     dashboardViewModel.showCheckInDetailSheet = nil
                 }
+                .navigationTitle("Check in on \(checkin.createdAt.formatted(date: .abbreviated, time: .omitted))")
+                .navigationBarTitleDisplayMode(.inline)
             }
         }
     }

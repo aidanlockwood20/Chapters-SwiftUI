@@ -9,11 +9,8 @@ struct AppBackgroundContainer<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading) {
             content
-            Spacer()
         }
-        .padding(.top, 96)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
         .background(.backgroundColour)
     }
 }
