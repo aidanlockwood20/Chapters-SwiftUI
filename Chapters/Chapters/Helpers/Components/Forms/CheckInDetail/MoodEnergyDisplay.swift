@@ -11,14 +11,14 @@ struct MoodEnergyDisplay: View {
                     Text("Mood Score")
                         .font(.title3)
                         .bold()
-                    Text(String(checkin.moodScore))
+                    Text(checkin.moodScore, format: .number.precision(.fractionLength(1)))
                 }
                 Spacer()
                 VStack {
                     Text("Energy Score")
                         .font(.title3)
                         .bold()
-                    Text(String(checkin.energyLevel))
+                    Text(checkin.energyLevel, format: .number.precision(.fractionLength(1)))
                 }
             }
         }
