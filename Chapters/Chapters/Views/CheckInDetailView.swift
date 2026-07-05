@@ -19,49 +19,9 @@ struct CheckInDetailView: View {
             NavigationStack {
                 ScrollView {
                     VStack {
-                        CheckInSectionCard(title: "Reflections") {
-                            Text(checkin.diaryNotes)
-                        }
-                        CheckInSectionCard(title: "Attached Photo") {
-                            Group {
-                                if let attachedPhoto {
-                                    Image(uiImage: attachedPhoto)
-                                        .resizable()
-                                        .scaledToFill()
-                                } else {
-                                    ZStack {
-                                        Rectangle()
-                                            .fill(Color.secondary)
-                                        
-                                        Image(systemName: "photo")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .foregroundStyle(.background)
-                                            .padding(56)
-                                    }
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 240)
-                            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        }
-                        CheckInSectionCard(title: "Mood and Energy") {
-                            HStack {
-                                VStack {
-                                    Text("Mood Score")
-                                        .font(.title3)
-                                        .bold()
-                                    Text(String(checkin.moodScore))
-                                }
-                                Spacer()
-                                VStack {
-                                    Text("Energy Score")
-                                        .font(.title3)
-                                        .bold()
-                                    Text(String(checkin.energyLevel))
-                                }
-                            }
-                        }
+                        ReflectionInsights(checkin: checkin)
+                        CheckInPhotoDisplay(attachedPhoto: attachedPhoto)
+                        MoodEnergyDisplay(checkin: checkin)
                         SubmitButton(labelText: "Update", isLoading: checkInViewModel.isSaving) {
                             print("Send User to Update View")
                         }
