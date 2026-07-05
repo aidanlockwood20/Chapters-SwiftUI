@@ -16,7 +16,6 @@ struct SubmitButtonStyle: ViewModifier {
         content
             .frame(maxWidth: .infinity, minHeight: 50)
             .background(.tealButtonColour.gradient)
-            .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: 34, style: .continuous))
             .padding(.bottom, 16)
     }

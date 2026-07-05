@@ -14,7 +14,7 @@ struct SubmitButton: View {
                 } else {
                     Text(labelText)
                         .colorInvert()
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.primary)
                         .bold()
                 }
             }

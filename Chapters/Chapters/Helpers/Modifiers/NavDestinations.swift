@@ -20,15 +20,5 @@ struct NavDestinations: ViewModifier {
                     }
                 }
             }
-            .navigationDestination(for: CheckInNavigation.self) { destination in
-                switch destination {
-                case .noteTaking:
-                    CheckInNotesView()
-                case .savingProgress:
-                    CheckInSavingView()
-                case .mainForm:
-                    EmptyView()
-                }
-            }
     }
 }

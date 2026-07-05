@@ -45,6 +45,16 @@ struct CheckInForm: View {
                     .padding(.horizontal, 16)
                 }
                 .scrollClipDisabled()
+                .navigationDestination(for: CheckInNavigation.self) { destination in
+                    switch destination {
+                    case .noteTaking:
+                        CheckInNotesView()
+                    case .savingProgress:
+                        CheckInSavingView()
+                    case .mainForm:
+                        EmptyView()
+                    }
+                }
             }
         }
         .alert("Unable to Save Check-In", isPresented: $saveErrorIsPresented) {
