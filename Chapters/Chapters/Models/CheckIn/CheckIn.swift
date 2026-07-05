@@ -4,21 +4,21 @@ import Foundation
 @Model
 final class CheckIn {
     var id: UUID = UUID()
-    var moodScore: Double = 0
-    var moodLabel: MoodSelection = MoodSelection.happy
-    var title: String = ""
-    var diaryNotes: String = ""
-    var energyLevel: Double = 0
-    var sleepQuality: Double = 0
-    var createdAt: Date = Date()
+    var moodScore: Double
+    var moodLabel: MoodSelection
+    var title: String
+    var diaryNotes: String
+    var energyLevel: Double
+    var sleepQuality: Double
+    var createdAt: Date
     
     @Attribute(.externalStorage)
-    var checkInPhoto: Data? = nil
+    var checkInPhoto: Data?
     
     var user: User? = nil
-    var chapter: Chapter? = nil
+    var chapter: Chapter?
     
-    init(id: UUID = UUID(), moodScore: Double, moodLabel: MoodSelection, title: String, diaryNotes: String, energyLevel: Double, sleepQuality: Double, user: User? = nil, chapter: Chapter? = nil, checkInPhoto: Data? = nil) {
+    init(id: UUID = UUID(), moodScore: Double  = 0, moodLabel: MoodSelection = MoodSelection.happy, title: String = "", diaryNotes: String = "", energyLevel: Double = 0, sleepQuality: Double = 0, user: User? = nil, chapter: Chapter? = nil, checkInPhoto: Data? = nil, createdAt: Date = Date()) {
         self.id = id
         self.moodScore = moodScore
         self.moodLabel = moodLabel
@@ -29,6 +29,7 @@ final class CheckIn {
         self.user = user
         self.chapter = chapter
         self.checkInPhoto = checkInPhoto
+        self.createdAt = createdAt
     }
     
     enum CodingKeys: String, CodingKey {
@@ -42,6 +43,7 @@ final class CheckIn {
         case checkInPhoto = "checkin_photo"
         case user = "user"
         case chapter = "chapter"
+        case createdAt = "created_at"
     }
     
     // Further methods for validation here
