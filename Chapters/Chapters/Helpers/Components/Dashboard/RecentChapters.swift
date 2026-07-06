@@ -36,6 +36,19 @@ struct RecentChapters: View {
                 .padding(.vertical, 16)
                 .padding(.horizontal, 8)
             }
+            Button {
+                // Open a "Create new Chapter" sheet
+            } label: {
+                HStack {
+                    Image(systemName: "plus")
+                        .bold()
+                    Text("Start a new Chapter")
+                        .bold()
+                }
+                .colorInvert()
+                .foregroundStyle(Color.primary)
+            }
+            .submitButtonStyle()
         }
         .frame(maxWidth: .infinity)
         .padding(.top)

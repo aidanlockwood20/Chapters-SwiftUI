@@ -36,7 +36,18 @@ struct CheckInDetails: View {
                             Text(chapter.title)
                         }
                     }
-
+                }
+                HStack {
+                    Button {
+                        // send the user to create a new chapter
+                    } label: {
+                        HStack {
+                            Text("Or start a new chapter")
+                                .foregroundStyle(Color.primary)
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.textLowContrast)
+                        }
+                    }
                 }
             }
             .padding(20)
@@ -44,4 +55,10 @@ struct CheckInDetails: View {
         .logCheckInCardStyle(horizontalPadding: 0)
         .padding(.bottom, 16)
     }
+}
+
+#Preview("Check In Form") {
+    CheckInForm()
+        .modelContainer(previewContainer)
+        .withPreviewEnvironment()
 }
