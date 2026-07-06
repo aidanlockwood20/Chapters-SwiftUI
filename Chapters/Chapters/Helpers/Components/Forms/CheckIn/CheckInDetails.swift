@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct CheckInDetails: View {
+    @Environment(DashboardViewModel.self) private var dashboardViewModel
     @Environment(CheckInViewModel.self) private var checkInViewModel
     
     @Query var chapters: [Chapter]
@@ -39,7 +40,7 @@ struct CheckInDetails: View {
                 }
                 HStack {
                     Button {
-                        // send the user to create a new chapter
+                        dashboardViewModel.displayChapterCreateSheet.toggle()
                     } label: {
                         HStack {
                             Text("Or start a new chapter")

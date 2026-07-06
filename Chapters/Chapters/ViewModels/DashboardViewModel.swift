@@ -10,6 +10,7 @@ final class DashboardViewModel {
     var displayChapterSheet: Chapter?
     var displayMetricsSheet: DashboardMetrics?
     var displayAccountSettings: Bool = false
+    var displayChapterCreateSheet: Bool = false
     
     func navTo(to toPath: DashboardNav) {
         navigationPath.append(toPath)

@@ -37,7 +37,7 @@ struct RecentChapters: View {
                 .padding(.horizontal, 8)
             }
             Button {
-                // Open a "Create new Chapter" sheet
+                dashboardViewModel.displayChapterCreateSheet.toggle()
             } label: {
                 HStack {
                     Image(systemName: "plus")

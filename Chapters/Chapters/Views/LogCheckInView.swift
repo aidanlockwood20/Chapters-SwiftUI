@@ -6,10 +6,15 @@ struct LogCheckInView: View {
     @Environment(CheckInViewModel.self) private var checkInViewModel
     
     var body: some View {
+        @Bindable var dashboardVM = dashboardViewModel
+        
         NavigationStack {
             CheckInForm(onSaveComplete: dismissSheet)
                 .closeSheetToolbar(isDisabled: checkInViewModel.isSaving) {
                     dismissSheet()
+                }
+                .sheet(isPresented: $dashboardVM.displayChapterCreateSheet) {
+                    ChapterCreateView()
                 }
         }
         .interactiveDismissDisabled(checkInViewModel.isSaving)
