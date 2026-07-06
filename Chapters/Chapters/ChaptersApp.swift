@@ -18,6 +18,7 @@ struct ChaptersApp: App {
                 .environment(chapterViewModel)
                 .environment(checkInViewModel)
                 .environment(metricsViewModel)
+                .environment(settingsViewModel)
         }
     }
 }
