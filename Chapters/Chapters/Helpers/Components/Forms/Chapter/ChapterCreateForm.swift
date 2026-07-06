@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChapterCreateForm: View {
     @Environment(ChapterViewModel.self) private var chapterViewModel
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         @Bindable var chapterVM = chapterViewModel
@@ -40,7 +41,13 @@ struct ChapterCreateForm: View {
                             }
                         }
                         SubmitButton(labelText: "Add New Chapter", isLoading: chapterViewModel.isSaving) {
-                            print("Adding new Chapter")
+                            Task {
+                                let didSave = await chapterViewModel.saveChapter()
+
+                                if didSave {
+                                    dismiss()
+                                }
+                            }
                         }
                     }
                     .scrollContentBackground(.hidden)

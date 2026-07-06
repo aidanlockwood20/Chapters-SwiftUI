@@ -19,7 +19,7 @@ final class Chapter {
     var lastModified: Date = Date()
     var moodAverage: Double = 0
     
-    init(chapterPhoto: Data? = nil, title: String, chapterDescription: String, startDate: Date, endDate: Date, user: User? = nil, dominantTags: String, createdAt: Date, lastModified: Date, moodAverage: Double) {
+    init(chapterPhoto: Data? = nil, title: String, chapterDescription: String, startDate: Date, endDate: Date, user: User? = nil, dominantTags: String, createdAt: Date = Date(), lastModified: Date = Date(), moodAverage: Double = 0.0) {
         self.chapterPhoto = chapterPhoto
         self.title = title
         self.chapterDescription = chapterDescription
