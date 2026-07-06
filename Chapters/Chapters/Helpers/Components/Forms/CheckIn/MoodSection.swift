@@ -13,6 +13,7 @@ struct MoodSection: View {
                     Text("How would you best describe it?")
                     Spacer()
                     Picker("Best word to describe it?", selection: $checkInVM.checkInInstance.moodLabel) {
+                        Text("-------").tag(nil as MoodSelection?)
                         ForEach(MoodSelection.allCases) { mood in
                             Text(mood.displayValue).tag(mood)
                         }
