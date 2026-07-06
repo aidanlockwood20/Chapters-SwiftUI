@@ -27,7 +27,7 @@ final class ChapterViewModel {
         
         await Task.yield()
         
-        let chapterRecord = Chapter(title: chapterInstance.title, chapterDescription: chapterInstance.chapterDescription, startDate: chapterInstance.startDate, endDate: chapterInstance.endDate ?? Date(), dominantTags: "")
+        let chapterRecord = Chapter(chapterPhoto: chapterInstance.chapterPhoto, title: chapterInstance.title, chapterDescription: chapterInstance.chapterDescription, startDate: chapterInstance.startDate, endDate: chapterInstance.endDate ?? Date(), dominantTags: "")
         
         modelContext.insert(chapterRecord)
         

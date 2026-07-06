@@ -16,6 +16,8 @@ struct LogCheckInView: View {
                 .sheet(isPresented: $checkInVM.displayChapterCreateSheet) {
                     ChapterCreateView()
                 }
+                .navigationTitle("Log Check In")
+                .navigationBarTitleDisplayMode(.inline)
         }
         .interactiveDismissDisabled(checkInViewModel.isSaving)
     }

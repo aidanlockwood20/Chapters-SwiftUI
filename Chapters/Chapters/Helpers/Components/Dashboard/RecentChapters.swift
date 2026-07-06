@@ -5,7 +5,7 @@ struct RecentChapters: View {
     @Environment(\.colorScheme) private var colourScheme
     @Environment(DashboardViewModel.self) private var dashboardViewModel
     
-    @Query var chapters: [Chapter]
+    @Query(sort: \Chapter.lastModified, order: .reverse) var chapters: [Chapter]
     
     var textColour: Color {
         return colourScheme == .dark ? .white : .black

@@ -9,7 +9,7 @@ let mainContainer: ModelContainer = {
             User.self
         ])
         
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let config = ModelConfiguration(isStoredInMemoryOnly: false)
         
         let container = try ModelContainer(for: schema, configurations: config)
         

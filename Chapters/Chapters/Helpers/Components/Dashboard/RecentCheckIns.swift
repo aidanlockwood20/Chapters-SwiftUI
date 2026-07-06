@@ -5,7 +5,7 @@ struct RecentCheckIns: View {
     @Environment(\.colorScheme) private var colourScheme
     @Environment(DashboardViewModel.self) private var dashboardViewModel
     
-    @Query var checkins: [CheckIn]
+    @Query(sort: \CheckIn.createdAt, order: .reverse) var checkins: [CheckIn]
     
     var textColour: Color {
         return colourScheme == .dark ? .white : .black
