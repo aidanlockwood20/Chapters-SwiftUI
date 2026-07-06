@@ -32,6 +32,7 @@ struct CheckInDetails: View {
                         .bold()
                     Spacer()
                     Picker("Add to an Existing Chapter", selection: $checkInVM.selectedChapter) {
+                        Text("-------").tag(nil as Chapter?)
                         ForEach(chapters, id: \.id) { chapter in
                             Text(chapter.title).tag(chapter as Chapter?)
                         }
