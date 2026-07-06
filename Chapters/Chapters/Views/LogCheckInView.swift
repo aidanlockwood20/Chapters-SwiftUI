@@ -6,14 +6,14 @@ struct LogCheckInView: View {
     @Environment(CheckInViewModel.self) private var checkInViewModel
     
     var body: some View {
-        @Bindable var dashboardVM = dashboardViewModel
+        @Bindable var checkInVM = checkInViewModel
         
         NavigationStack {
             CheckInForm(onSaveComplete: dismissSheet)
                 .closeSheetToolbar(isDisabled: checkInViewModel.isSaving) {
                     dismissSheet()
                 }
-                .sheet(isPresented: $dashboardVM.displayChapterCreateSheet) {
+                .sheet(isPresented: $checkInVM.displayChapterCreateSheet) {
                     ChapterCreateView()
                 }
         }
@@ -22,6 +22,7 @@ struct LogCheckInView: View {
 
     private func dismissSheet() {
         checkInViewModel.checkInNavPath.removeAll()
+        checkInViewModel.resetDraft()
         dashboardViewModel.displayCheckInSheet = false
     }
 }

@@ -1,7 +1,5 @@
 import SwiftUI
 import SwiftData
-import PhotosUI
-
 import Observation
 
 @MainActor
@@ -13,7 +11,7 @@ final class CheckInViewModel {
     var checkInNavPath: [CheckInNavigation] = []
 
     var selectedChapter: Chapter?
-    var selectedImage: PhotosPickerItem?
+    var displayChapterCreateSheet: Bool = false
     
     var isLoading: Bool = false
     var errorMessage: String?
@@ -28,7 +26,7 @@ final class CheckInViewModel {
         print("Validation Process")
     }
     
-    func saveCheckIn(imageData: Data?) async -> Bool {
+    func saveCheckIn() async -> Bool {
         isSaving = true
         errorMessage = nil
         defer {
@@ -47,18 +45,24 @@ final class CheckInViewModel {
             sleepQuality: checkInInstance.sleepQuality,
             user: nil,
             chapter: nil,
-            checkInPhoto: imageData
+            checkInPhoto: checkInInstance.checkInPhoto
         )
 
         modelContext.insert(checkInRecord)
 
         do {
             try modelContext.save()
-            checkInInstance = CheckInInput()
+            resetDraft()
             return true
         } catch {
             errorMessage = error.localizedDescription
             return false
         }
+    }
+
+    func resetDraft() {
+        checkInInstance = CheckInInput()
+        selectedChapter = nil
+        displayChapterCreateSheet = false
     }
 }

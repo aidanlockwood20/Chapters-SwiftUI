@@ -11,7 +11,7 @@ final class Chapter {
     var title: String = ""
     var chapterDescription: String = ""
     var startDate: Date = Date()
-    var endDate: Date = Date()
+    var endDate: Date?
     var user: User? = nil
     var dominantTags: String = ""
     

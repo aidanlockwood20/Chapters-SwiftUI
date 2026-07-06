@@ -1,10 +1,8 @@
 import SwiftUI
-import PhotosUI
 import SwiftData
 
 struct CheckInForm: View {
     @Environment(CheckInViewModel.self) private var checkInViewModel
-    @State private var imageData: Data?
     @State private var saveErrorIsPresented: Bool = false
 
     let onSaveComplete: () -> Void
@@ -27,12 +25,9 @@ struct CheckInForm: View {
                         MoodSection()
                         RecoverySection()
                         CheckInDetails()
-                        VStack {
-                            PhotoSelectionPicker(imageData: $imageData)
-                            .padding(20)
+                        CheckInSectionCard(title: "Add Photo") {
+                            PhotoCardPicker(imageData: $checkInVM.checkInInstance.checkInPhoto, title: "Select a Photo", subtitle: "Choose an image for this check in")
                         }
-                        .logCheckInCardStyle(horizontalPadding: 0)
-                        .padding(.bottom, 16)
                         SubmitButton(
                             labelText: "Complete Check In",
                             isLoading: checkInViewModel.isSaving,
@@ -69,7 +64,7 @@ struct CheckInForm: View {
         checkInViewModel.checkInNavPath.append(.savingProgress)
 
         Task {
-            let didSave = await checkInViewModel.saveCheckIn(imageData: imageData)
+            let didSave = await checkInViewModel.saveCheckIn()
 
             if didSave {
                 checkInViewModel.checkInNavPath.removeAll()

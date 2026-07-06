@@ -8,7 +8,7 @@ extension View {
         
         let checkInViewModel = CheckInViewModel(modelContext: context)
         let dashboardViewModel = DashboardViewModel()
-        let chapterViewModel = ChapterViewModel()
+        let chapterViewModel = ChapterViewModel(modelContext: context)
         let metricsViewModel = MetricsViewModel()
         let settingsViewModel = SettingsViewModel()
         

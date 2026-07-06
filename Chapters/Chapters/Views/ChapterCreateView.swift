@@ -1,16 +1,24 @@
 import SwiftUI
 
 struct ChapterCreateView: View {
-    @Environment(DashboardViewModel.self) private var dashboardViewModel
+    @Environment(ChapterViewModel.self) private var chapterViewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         AppBackgroundContainer {
             NavigationStack {
-                Text("Chapter Create View")
+                ChapterCreateForm()
                     .closeSheetToolbar {
-                        dashboardViewModel.displayChapterCreateSheet.toggle()
+                        chapterViewModel.chapterInstance = ChapterInput()
+                        dismiss()
                     }
             }
         }
     }
+}
+
+#Preview {
+    
+    ChapterCreateView()
+        .withPreviewEnvironment()
 }
