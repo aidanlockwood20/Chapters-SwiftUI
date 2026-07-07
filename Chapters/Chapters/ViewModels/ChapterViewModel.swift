@@ -57,6 +57,14 @@ final class ChapterViewModel {
         }        
     }
     
+    func updateChapter() async -> Chapter? {
+        return nil
+    }
+    
+    func deleteChapter() async -> Chapter? {
+        return nil
+    }
+    
     func resetDraft() {
         chapterInstance = ChapterInput()
         validationMessage = nil

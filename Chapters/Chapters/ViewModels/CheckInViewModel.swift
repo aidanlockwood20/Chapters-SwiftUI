@@ -62,6 +62,14 @@ final class CheckInViewModel {
             return false
         }
     }
+    
+    func updateCheckIn() async -> Bool {
+        return true
+    }
+    
+    func deleteCheckIn() async -> Bool {
+        return true
+    }
 
     func resetDraft() {
         checkInInstance = CheckInInput()
