@@ -31,14 +31,28 @@ struct CheckInDetails: View {
                     Text("Add to an Existing Chapter")
                         .bold()
                     Spacer()
-                    Picker("Add to an Existing Chapter", selection: $checkInVM.checkInInstance.chapterSelection) {
-                        Text("-------").tag(nil as Chapter?)
+                    Picker("Add to an Existing Chapter", selection: $checkInVM.checkInInstance.chapterSelectionID) {
+                        Text("-------").tag(nil as UUID?)
                         ForEach(chapters, id: \.id) { chapter in
-                            Text(chapter.title).tag(chapter as Chapter?)
+                            Text(chapter.title).tag(chapter.id as UUID?)
                         }
                     }
                 }
-                .onChange(of: checkInVM.checkInInstance.chapterSelection) {
+                .onChange(of: checkInVM.checkInInstance.chapterSelectionID) {
+                    checkInViewModel.checkInInstance.chapterSelection = chapters.first {
+                        $0.id == checkInViewModel.checkInInstance.chapterSelectionID
+                    }
+                    checkInViewModel.clearValidationMessage()
+                }
+                .onChange(of: chapters.map(\.id)) {
+                    guard let selectedChapterID = checkInViewModel.checkInInstance.chapterSelectionID else {
+                        checkInViewModel.checkInInstance.chapterSelection = nil
+                        return
+                    }
+
+                    checkInViewModel.checkInInstance.chapterSelection = chapters.first {
+                        $0.id == selectedChapterID
+                    }
                     checkInViewModel.clearValidationMessage()
                 }
                 HStack {

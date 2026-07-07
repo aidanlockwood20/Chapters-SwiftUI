@@ -4,6 +4,12 @@ struct ChapterCreateForm: View {
     @Environment(ChapterViewModel.self) private var chapterViewModel
     @Environment(\.dismiss) private var dismiss
 
+    let onChapterCreated: (Chapter) -> Void
+
+    init(onChapterCreated: @escaping (Chapter) -> Void = { _ in }) {
+        self.onChapterCreated = onChapterCreated
+    }
+
     var body: some View {
         @Bindable var chapterVM = chapterViewModel
         
@@ -58,11 +64,12 @@ struct ChapterCreateForm: View {
                             }
 
                             Task {
-                                let didSave = await chapterViewModel.saveChapter()
-
-                                if didSave {
-                                    dismiss()
+                                guard let savedChapter = await chapterViewModel.saveChapter() else {
+                                    return
                                 }
+
+                                onChapterCreated(savedChapter)
+                                dismiss()
                             }
                         }
                     }

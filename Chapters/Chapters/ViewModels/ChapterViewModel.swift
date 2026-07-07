@@ -32,7 +32,7 @@ final class ChapterViewModel {
         self.modelContext = modelContext
     }
     
-    func saveChapter() async -> Bool {
+    func saveChapter() async -> Chapter? {
         isSaving = true
         errorMessage = nil
         
@@ -49,11 +49,11 @@ final class ChapterViewModel {
         do {
             try modelContext.save()
             resetDraft()
-            return true
+            return chapterRecord
         }
         catch {
             errorMessage = error.localizedDescription
-            return false
+            return nil
         }        
     }
     

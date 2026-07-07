@@ -47,7 +47,7 @@ final class CheckInViewModel {
             energyLevel: checkInInstance.energyLevel,
             sleepQuality: checkInInstance.sleepQuality,
             user: nil,
-            chapter: nil,
+            chapter: checkInInstance.chapterSelection,
             checkInPhoto: checkInInstance.checkInPhoto
         )
 

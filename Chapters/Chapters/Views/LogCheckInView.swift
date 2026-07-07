@@ -14,7 +14,7 @@ struct LogCheckInView: View {
                     dismissSheet()
                 }
                 .sheet(isPresented: $checkInVM.displayChapterCreateSheet) {
-                    ChapterCreateView()
+                    ChapterCreateView(onChapterCreated: updateSelectedChapter)
                 }
                 .navigationTitle("Log Check In")
                 .navigationBarTitleDisplayMode(.inline)
@@ -26,6 +26,14 @@ struct LogCheckInView: View {
         checkInViewModel.checkInNavPath.removeAll()
         checkInViewModel.resetDraft()
         dashboardViewModel.displayCheckInSheet = false
+    }
+
+    private func updateSelectedChapter(_ chapter: Chapter) {
+        checkInViewModel.checkInInstance.chapterSelectionID = chapter.id
+        checkInViewModel.checkInInstance.chapterSelection = chapter
+        checkInViewModel.selectedChapter = chapter
+        checkInViewModel.displayChapterCreateSheet = false
+        checkInViewModel.clearValidationMessage()
     }
 }
 

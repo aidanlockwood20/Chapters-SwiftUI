@@ -41,7 +41,7 @@ struct CheckInForm: View {
                                 if checkInVM.validationMessage == .chapterNotSelected {
                                     Text(validationMessage.errorDescription)
                                         .validationMessageStyle()
-                        .transition(.opacity.combined(with: .move(edge: .top)))
+                                        .transition(.opacity.combined(with: .move(edge: .top)))
                                         .id(CheckInValidation.chapterNotSelected)
                                 }
                             }
