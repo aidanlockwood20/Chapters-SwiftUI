@@ -20,6 +20,9 @@ struct MoodSection: View {
                     }
                 }
             }
+            .onChange(of: checkInVM.checkInInstance.moodLabel) {
+                checkInViewModel.clearValidationMessage()
+            }
         }
     }
 }

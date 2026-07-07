@@ -2,11 +2,12 @@ import SwiftUI
 import PhotosUI
 
 struct CheckInInput {
-    var moodScore: Double = 0
+    var moodScore: Double = 5
     var moodLabel: MoodSelection? = nil
     var checkInTitle: String = ""
     var diaryNotes: String = ""
-    var energyLevel: Double = 0
-    var sleepQuality: Double = 0
+    var energyLevel: Double = 5
+    var sleepQuality: Double = 5
+    var chapterSelection: Chapter? = nil
     var checkInPhoto: Data? = nil
 }

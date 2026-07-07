@@ -2,6 +2,8 @@ import SwiftUI
 import SwiftData
 
 struct CheckInForm: View {
+    private static let topScrollAnchor = "check-in-form-top"
+
     @Environment(CheckInViewModel.self) private var checkInViewModel
     @State private var saveErrorIsPresented: Bool = false
 
@@ -16,38 +18,60 @@ struct CheckInForm: View {
         
         AppBackgroundContainer {
             NavigationStack(path: $checkInVM.checkInNavPath) {
-                ScrollView {
-                    Text("What's Been Happening?")
-                        .font(.title2)
-                        .bold()
-                        .padding()
-                    VStack { // Sets the main padding for the entire form
-                        MoodSection()
-                        RecoverySection()
-                        CheckInDetails()
-                        CheckInSectionCard(title: "Add Photo") {
-                            PhotoCardPicker(imageData: $checkInVM.checkInInstance.checkInPhoto, title: "Select a Photo", subtitle: "Choose an image for this check in")
+                ScrollViewReader { scrollProxy in
+                    ScrollView {
+                        Text("What's Been Happening?")
+                            .font(.title2)
+                            .bold()
+                            .padding()
+                            .id(Self.topScrollAnchor)
+                        VStack { // Sets the main padding for the entire form
+                            MoodSection()
+                            if let validationMessage = checkInVM.validationMessage {
+                                if checkInVM.validationMessage == .moodNotSelected {
+                                    Text(validationMessage.errorDescription)
+                                        .checkInValidationMessageStyle()
+                                        .transition(.opacity.combined(with: .move(edge: .top)))
+                                        .id(CheckInValidation.moodNotSelected)
+                                }
+                            }
+                            RecoverySection()
+                            CheckInDetails()
+                            if let validationMessage = checkInVM.validationMessage {
+                                if checkInVM.validationMessage == .chapterNotSelected {
+                                    Text(validationMessage.errorDescription)
+                                        .checkInValidationMessageStyle()
+                                        .transition(.opacity.combined(with: .move(edge: .top)))
+                                        .id(CheckInValidation.chapterNotSelected)
+                                }
+                            }
+                            CheckInSectionCard(title: "Add Photo") {
+                                PhotoCardPicker(imageData: $checkInVM.checkInInstance.checkInPhoto, title: "Select a Photo", subtitle: "Choose an image for this check in")
+                            }
+                            SubmitButton(
+                                labelText: "Complete Check In",
+                                isLoading: checkInViewModel.isSaving,
+                                action: {
+                                    submitCheckIn(scrollProxy: scrollProxy)
+                                }
+                            )
                         }
-                        SubmitButton(
-                            labelText: "Complete Check In",
-                            isLoading: checkInViewModel.isSaving,
-                            action: submitCheckIn
-                        )
+                        .scrollContentBackground(.hidden)
+                        .background(.backgroundColour)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 16)
+                        .animation(.snappy, value: checkInVM.validationMessage)
                     }
-                    .scrollContentBackground(.hidden)
-                    .background(.backgroundColour)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 16)
-                }
-                .scrollClipDisabled()
-                .navigationDestination(for: CheckInNavigation.self) { destination in
-                    switch destination {
-                    case .noteTaking:
-                        CheckInNotesView()
-                    case .savingProgress:
-                        CheckInSavingView()
-                    case .mainForm:
-                        EmptyView()
+                    .scrollClipDisabled()
+                    .navigationDestination(for: CheckInNavigation.self) { destination in
+                        switch destination {
+                        case .noteTaking:
+                            CheckInNotesView()
+                        case .savingProgress:
+                            CheckInSavingView()
+                        case .mainForm:
+                            EmptyView()
+                        }
                     }
                 }
             }
@@ -58,8 +82,27 @@ struct CheckInForm: View {
         }
     }
 
-    private func submitCheckIn() {
+    private func submitCheckIn(scrollProxy: ScrollViewProxy) {
         guard !checkInViewModel.isSaving else { return }
+        guard checkInViewModel.validateCheckInEntry() else {
+            if let validationMessage = checkInViewModel.validationMessage {
+                let targetID: AnyHashable = switch validationMessage {
+                case .moodNotSelected, .noErrors:
+                    Self.topScrollAnchor
+                case .chapterNotSelected:
+                    CheckInValidation.chapterNotSelected
+                }
+
+                Task { @MainActor in
+                    await Task.yield()
+
+                    withAnimation(.snappy) {
+                        scrollProxy.scrollTo(targetID, anchor: .top)
+                    }
+                }
+            }
+            return
+        }
 
         checkInViewModel.checkInNavPath.append(.savingProgress)
 
@@ -74,6 +117,16 @@ struct CheckInForm: View {
                 saveErrorIsPresented = true
             }
         }
+    }
+}
+
+private extension View {
+    func checkInValidationMessageStyle() -> some View {
+        font(.footnote)
+            .foregroundStyle(.red)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(.red.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
     }
 }
 

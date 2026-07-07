@@ -14,16 +14,15 @@ final class CheckInViewModel {
     var displayChapterCreateSheet: Bool = false
     
     var isLoading: Bool = false
+
+    var showError: Bool = false
     var errorMessage: String?
+    var validationMessage: CheckInValidation?
     
     var isSaving: Bool = false
     
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
-    }
-    
-    func validateCheckIn() -> Void {
-        print("Validation Process")
     }
     
     func saveCheckIn() async -> Bool {
@@ -35,42 +34,58 @@ final class CheckInViewModel {
 
         await Task.yield()
 
-        if let checkInMood = checkInInstance.moodLabel {
-            let checkInRecord = CheckIn(
-                id: UUID(),
-                moodScore: checkInInstance.moodScore,
-                moodLabel: checkInMood,
-                title: checkInInstance.checkInTitle,
-                diaryNotes: checkInInstance.diaryNotes,
-                energyLevel: checkInInstance.energyLevel,
-                sleepQuality: checkInInstance.sleepQuality,
-                user: nil,
-                chapter: nil,
-                checkInPhoto: checkInInstance.checkInPhoto
-            )
-            
-            modelContext.insert(checkInRecord)
-            
-            do {
-                try modelContext.save()
-                resetDraft()
-                return true
-            } catch {
-                errorMessage = error.localizedDescription
-                return false
-            }
+        guard let checkInMood = checkInInstance.moodLabel else {
+            return false
         }
-        
-        return false
+
+        let checkInRecord = CheckIn(
+            id: UUID(),
+            moodScore: checkInInstance.moodScore,
+            moodLabel: checkInMood,
+            title: checkInInstance.checkInTitle,
+            diaryNotes: checkInInstance.diaryNotes,
+            energyLevel: checkInInstance.energyLevel,
+            sleepQuality: checkInInstance.sleepQuality,
+            user: nil,
+            chapter: nil,
+            checkInPhoto: checkInInstance.checkInPhoto
+        )
+
+        modelContext.insert(checkInRecord)
+
+        do {
+            try modelContext.save()
+            resetDraft()
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
 
     func resetDraft() {
         checkInInstance = CheckInInput()
         selectedChapter = nil
         displayChapterCreateSheet = false
+        validationMessage = nil
     }
     
-    func validateCheckInEntry() -> CheckInValidation {
-        return .noErrors
+    func validateCheckInEntry() -> Bool {
+        let validationResult: CheckInValidation
+
+        if checkInInstance.moodLabel == nil {
+            validationResult = .moodNotSelected
+        } else if checkInInstance.chapterSelection == nil {
+            validationResult = .chapterNotSelected
+        } else {
+            validationResult = .noErrors
+        }
+
+        validationMessage = validationResult == .noErrors ? nil : validationResult
+        return validationResult == .noErrors
+    }
+
+    func clearValidationMessage() {
+        validationMessage = nil
     }
 }

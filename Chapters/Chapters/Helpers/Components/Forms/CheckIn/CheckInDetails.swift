@@ -31,12 +31,15 @@ struct CheckInDetails: View {
                     Text("Add to an Existing Chapter")
                         .bold()
                     Spacer()
-                    Picker("Add to an Existing Chapter", selection: $checkInVM.selectedChapter) {
+                    Picker("Add to an Existing Chapter", selection: $checkInVM.checkInInstance.chapterSelection) {
                         Text("-------").tag(nil as Chapter?)
                         ForEach(chapters, id: \.id) { chapter in
                             Text(chapter.title).tag(chapter as Chapter?)
                         }
                     }
+                }
+                .onChange(of: checkInVM.checkInInstance.chapterSelection) {
+                    checkInViewModel.clearValidationMessage()
                 }
                 HStack {
                     Button {
