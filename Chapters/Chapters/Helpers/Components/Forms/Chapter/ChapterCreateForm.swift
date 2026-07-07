@@ -24,13 +24,25 @@ struct ChapterCreateForm: View {
                                     .font(.title3)
                                     .bold()
                                 TextField("Title", text: $chapterVM.chapterInstance.title)
+                                    .onChange(of: chapterVM.chapterInstance.title) {
+                                        chapterViewModel.clearValidationMessage()
+                                    }
                             }
                             VStack(alignment: .leading) {
                                 Text("Description")
                                     .font(.title3)
                                     .bold()
                                 TextField("Description", text: $chapterVM.chapterInstance.chapterDescription)
+                                    .onChange(of: chapterVM.chapterInstance.chapterDescription) {
+                                        chapterViewModel.clearValidationMessage()
+                                    }
                             }
+                        }
+                        if let validationMessage = chapterVM.validationMessage {
+                            Text(validationMessage.errorDescription)
+                                .validationMessageStyle()
+                                .transition(.opacity.combined(with: .move(edge: .top)))
+                                .id(validationMessage)
                         }
                         CheckInSectionCard(title: "Timeline") {
                             VStack(alignment: .leading) {
@@ -41,6 +53,10 @@ struct ChapterCreateForm: View {
                             }
                         }
                         SubmitButton(labelText: "Add New Chapter", isLoading: chapterViewModel.isSaving) {
+                            guard chapterViewModel.validateChapterEntry() else {
+                                return
+                            }
+
                             Task {
                                 let didSave = await chapterViewModel.saveChapter()
 
@@ -54,6 +70,7 @@ struct ChapterCreateForm: View {
                     .background(.backgroundColour)
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 16)
+                    .animation(.snappy, value: chapterVM.validationMessage)
                 }
                 .scrollClipDisabled()
                 .navigationTitle("Create Chapter")

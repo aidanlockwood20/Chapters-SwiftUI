@@ -2,12 +2,27 @@ import SwiftUI
 import SwiftData
 import Observation
 
+enum ChapterValidation: String, Hashable {
+    case titleMissing
+    case descriptionMissing
+
+    var errorDescription: String {
+        switch self {
+        case .titleMissing:
+            return "A title is required. Please add a title for this chapter."
+        case .descriptionMissing:
+            return "A description is required. Please add a description for this chapter."
+        }
+    }
+}
+
 @Observable
 final class ChapterViewModel {
     let modelContext: ModelContext
     
     var isLoading: Bool = false
     var errorMessage: String?
+    var validationMessage: ChapterValidation?
     
     var chapterInstance: ChapterInput = ChapterInput()
     
@@ -44,5 +59,25 @@ final class ChapterViewModel {
     
     func resetDraft() {
         chapterInstance = ChapterInput()
+        validationMessage = nil
+    }
+
+    func validateChapterEntry() -> Bool {
+        let validationResult: ChapterValidation?
+
+        if chapterInstance.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            validationResult = .titleMissing
+        } else if chapterInstance.chapterDescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            validationResult = .descriptionMissing
+        } else {
+            validationResult = nil
+        }
+
+        validationMessage = validationResult
+        return validationResult == nil
+    }
+
+    func clearValidationMessage() {
+        validationMessage = nil
     }
 }
