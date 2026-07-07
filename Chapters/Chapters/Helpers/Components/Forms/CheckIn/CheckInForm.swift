@@ -30,7 +30,7 @@ struct CheckInForm: View {
                             if let validationMessage = checkInVM.validationMessage {
                                 if checkInVM.validationMessage == .moodNotSelected {
                                     Text(validationMessage.errorDescription)
-                                        .checkInValidationMessageStyle()
+                                        .validationMessageStyle()
                                         .transition(.opacity.combined(with: .move(edge: .top)))
                                         .id(CheckInValidation.moodNotSelected)
                                 }
@@ -40,7 +40,7 @@ struct CheckInForm: View {
                             if let validationMessage = checkInVM.validationMessage {
                                 if checkInVM.validationMessage == .chapterNotSelected {
                                     Text(validationMessage.errorDescription)
-                                        .checkInValidationMessageStyle()
+                                        .validationMessageStyle()
                                         .transition(.opacity.combined(with: .move(edge: .top)))
                                         .id(CheckInValidation.chapterNotSelected)
                                 }
@@ -117,16 +117,6 @@ struct CheckInForm: View {
                 saveErrorIsPresented = true
             }
         }
-    }
-}
-
-private extension View {
-    func checkInValidationMessageStyle() -> some View {
-        font(.footnote)
-            .foregroundStyle(.red)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(12)
-            .background(.red.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
     }
 }
 
