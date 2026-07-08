@@ -42,7 +42,10 @@ struct CheckInDetailView: View {
                         CheckInPhotoDisplay(attachedPhoto: attachedPhoto)
                         MoodEnergyDisplay(checkin: checkin)
                         SubmitButton(labelText: "Update", isLoading: checkInViewModel.isSaving) {
-                            print("Send User to Update View")
+                            checkInViewModel.beginEditing(checkin)
+                            withAnimation(.snappy) {
+                                isEditing = true
+                            }
                         }
                     }
                     .scrollContentBackground(.hidden)
@@ -69,7 +72,7 @@ struct CheckInDetailView: View {
                 submitButtonText: "Save Changes",
                 submitErrorTitle: "Unable to Update Check-In",
                 submitAction: checkInViewModel.updateCheckIn,
-                onSubmitComplete: dismissSheet,
+                onSaveComplete: dismissSheet,
                 deleteButtonText: "Delete Check-In",
                 deleteErrorTitle: "Unable to Delete Check-In",
                 deleteAction: checkInViewModel.deleteCheckIn,
