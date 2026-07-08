@@ -76,7 +76,7 @@ struct CheckInDetails: View {
 }
 
 #Preview("Check In Form") {
-    CheckInForm()
+    CheckInForm(submitAction: { true })
         .modelContainer(previewContainer)
         .withPreviewEnvironment()
 }

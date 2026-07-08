@@ -5,12 +5,40 @@ struct CheckInForm: View {
     private static let topScrollAnchor = "check-in-form-top"
 
     @Environment(CheckInViewModel.self) private var checkInViewModel
-    @State private var saveErrorIsPresented: Bool = false
+    @State private var submitErrorIsPresented: Bool = false
+    @State private var deleteErrorIsPresented: Bool = false
+    @State private var deleteConfirmationIsPresented: Bool = false
 
-    let onSaveComplete: () -> Void
+    let headingText: String
+    let submitButtonText: String
+    let submitErrorTitle: String
+    let submitAction: () async -> Bool
+    let onSubmitComplete: () -> Void
+    let deleteButtonText: String?
+    let deleteErrorTitle: String
+    let deleteAction: (() async -> Bool)?
+    let onDeleteComplete: () -> Void
 
-    init(onSaveComplete: @escaping () -> Void = {}) {
-        self.onSaveComplete = onSaveComplete
+    init(
+        headingText: String = "What's Been Happening?",
+        submitButtonText: String = "Complete Check In",
+        submitErrorTitle: String = "Unable to Save Check-In",
+        submitAction: @escaping () async -> Bool,
+        onSubmitComplete: @escaping () -> Void = {},
+        deleteButtonText: String? = nil,
+        deleteErrorTitle: String = "Unable to Delete Check-In",
+        deleteAction: (() async -> Bool)? = nil,
+        onDeleteComplete: @escaping () -> Void = {}
+    ) {
+        self.headingText = headingText
+        self.submitButtonText = submitButtonText
+        self.submitErrorTitle = submitErrorTitle
+        self.submitAction = submitAction
+        self.onSubmitComplete = onSubmitComplete
+        self.deleteButtonText = deleteButtonText
+        self.deleteErrorTitle = deleteErrorTitle
+        self.deleteAction = deleteAction
+        self.onDeleteComplete = onDeleteComplete
     }
     
     var body: some View {
@@ -20,7 +48,7 @@ struct CheckInForm: View {
             NavigationStack(path: $checkInVM.checkInNavPath) {
                 ScrollViewReader { scrollProxy in
                     ScrollView {
-                        Text("What's Been Happening?")
+                        Text(headingText)
                             .font(.title2)
                             .bold()
                             .padding()
@@ -49,12 +77,24 @@ struct CheckInForm: View {
                                 PhotoCardPicker(imageData: $checkInVM.checkInInstance.checkInPhoto, title: "Select a Photo", subtitle: "Choose an image for this check in")
                             }
                             SubmitButton(
-                                labelText: "Complete Check In",
+                                labelText: submitButtonText,
                                 isLoading: checkInViewModel.isSaving,
                                 action: {
                                     submitCheckIn(scrollProxy: scrollProxy)
                                 }
                             )
+                            if let deleteButtonText {
+                                Button(role: .destructive) {
+                                    deleteConfirmationIsPresented = true
+                                } label: {
+                                    Text(deleteButtonText)
+                                        .frame(maxWidth: .infinity, minHeight: 50)
+                                        .bold()
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .tint(.red)
+                                .disabled(checkInViewModel.isSaving)
+                            }
                         }
                         .scrollContentBackground(.hidden)
                         .background(.backgroundColour)
@@ -76,9 +116,22 @@ struct CheckInForm: View {
                 }
             }
         }
-        .alert("Unable to Save Check-In", isPresented: $saveErrorIsPresented) {
+        .alert(submitErrorTitle, isPresented: $submitErrorIsPresented) {
         } message: {
             Text(checkInViewModel.errorMessage ?? "An unexpected error occurred while saving your check-in.")
+        }
+        .alert(deleteErrorTitle, isPresented: $deleteErrorIsPresented) {
+        } message: {
+            Text(checkInViewModel.errorMessage ?? "An unexpected error occurred while deleting your check-in.")
+        }
+        .confirmationDialog("Delete this check-in?", isPresented: $deleteConfirmationIsPresented, titleVisibility: .visible) {
+            Button("Delete Check-In", role: .destructive) {
+                performDelete()
+            }
+            Button("Cancel", role: .cancel) {
+            }
+        } message: {
+            Text("This action cannot be undone.")
         }
     }
 
@@ -107,21 +160,34 @@ struct CheckInForm: View {
         checkInViewModel.checkInNavPath.append(.savingProgress)
 
         Task {
-            let didSave = await checkInViewModel.saveCheckIn()
+            let didSave = await submitAction()
 
             if didSave {
-                checkInViewModel.checkInNavPath.removeAll()
-                onSaveComplete()
+                onSubmitComplete()
             } else {
                 checkInViewModel.checkInNavPath.removeAll { $0 == .savingProgress }
-                saveErrorIsPresented = true
+                submitErrorIsPresented = true
+            }
+        }
+    }
+
+    private func performDelete() {
+        guard let deleteAction else { return }
+
+        Task {
+            let didDelete = await deleteAction()
+
+            if didDelete {
+                onDeleteComplete()
+            } else {
+                deleteErrorIsPresented = true
             }
         }
     }
 }
 
 #Preview("Check In Form") {
-    CheckInForm()
+    CheckInForm(submitAction: { true })
         .modelContainer(previewContainer)
         .withPreviewEnvironment()
 }

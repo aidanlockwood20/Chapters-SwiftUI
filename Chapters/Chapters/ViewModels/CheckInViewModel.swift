@@ -9,6 +9,7 @@ final class CheckInViewModel {
     
     var checkInInstance: CheckInInput = CheckInInput()
     var checkInNavPath: [CheckInNavigation] = []
+    var editingCheckIn: CheckIn?
 
     var selectedChapter: Chapter?
     var displayChapterCreateSheet: Bool = false
@@ -63,19 +64,92 @@ final class CheckInViewModel {
         }
     }
     
+    func beginEditing(_ checkIn: CheckIn) {
+        editingCheckIn = checkIn
+        checkInInstance = CheckInInput(
+            moodScore: checkIn.moodScore,
+            moodLabel: checkIn.moodLabel,
+            checkInTitle: checkIn.title,
+            diaryNotes: checkIn.diaryNotes,
+            energyLevel: checkIn.energyLevel,
+            sleepQuality: checkIn.sleepQuality,
+            chapterSelectionID: checkIn.chapter?.id,
+            chapterSelection: checkIn.chapter,
+            checkInPhoto: checkIn.checkInPhoto
+        )
+        selectedChapter = checkIn.chapter
+        displayChapterCreateSheet = false
+        validationMessage = nil
+        errorMessage = nil
+        checkInNavPath.removeAll()
+    }
+    
     func updateCheckIn() async -> Bool {
-        return true
+        isSaving = true
+        errorMessage = nil
+        defer {
+            isSaving = false
+        }
+
+        await Task.yield()
+
+        guard let existingCheckIn = editingCheckIn,
+              let checkInMood = checkInInstance.moodLabel else {
+            return false
+        }
+
+        existingCheckIn.moodScore = checkInInstance.moodScore
+        existingCheckIn.moodLabel = checkInMood
+        existingCheckIn.title = checkInInstance.checkInTitle
+        existingCheckIn.diaryNotes = checkInInstance.diaryNotes
+        existingCheckIn.energyLevel = checkInInstance.energyLevel
+        existingCheckIn.sleepQuality = checkInInstance.sleepQuality
+        existingCheckIn.chapter = checkInInstance.chapterSelection
+        existingCheckIn.checkInPhoto = checkInInstance.checkInPhoto
+
+        do {
+            try modelContext.save()
+            resetDraft()
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
     
     func deleteCheckIn() async -> Bool {
-        return true
+        isSaving = true
+        errorMessage = nil
+        defer {
+            isSaving = false
+        }
+
+        await Task.yield()
+
+        guard let existingCheckIn = editingCheckIn else {
+            return false
+        }
+
+        modelContext.delete(existingCheckIn)
+
+        do {
+            try modelContext.save()
+            resetDraft()
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
 
     func resetDraft() {
         checkInInstance = CheckInInput()
         selectedChapter = nil
+        editingCheckIn = nil
         displayChapterCreateSheet = false
         validationMessage = nil
+        errorMessage = nil
+        checkInNavPath.removeAll()
     }
     
     func validateCheckInEntry() -> Bool {

@@ -9,7 +9,10 @@ struct LogCheckInView: View {
         @Bindable var checkInVM = checkInViewModel
         
         NavigationStack {
-            CheckInForm(onSaveComplete: dismissSheet)
+            CheckInForm(
+                submitAction: checkInViewModel.saveCheckIn,
+                onSubmitComplete: dismissSheet
+            )
                 .closeSheetToolbar(isDisabled: checkInViewModel.isSaving) {
                     dismissSheet()
                 }
@@ -41,7 +44,7 @@ struct LogCheckInView: View {
     let context = ModelContext(previewContainer)
     let checkInViewModel = CheckInViewModel(modelContext: context)
     
-    CheckInForm()
+    CheckInForm(submitAction: checkInViewModel.saveCheckIn)
         .modelContainer(previewContainer)
         .withPreviewEnvironment()
 }
