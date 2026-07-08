@@ -70,6 +70,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F5EB6D92FFF11CB0024EFA8 /* Generables */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Generables;
+			sourceTree = "<group>";
+		};
 		9FF8EFAF2FF5C95900CCF793 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +84,7 @@
 				9FF8EFBA2FF5C95900CCF793 /* Chapters */,
 				9FC90A592FF9FB5600D0C0DA /* ChaptersTests */,
 				9FF8EFB92FF5C95900CCF793 /* Products */,
+				9F5EB6D92FFF11CB0024EFA8 /* Generables */,
 			);
 			sourceTree = "<group>";
 		};
