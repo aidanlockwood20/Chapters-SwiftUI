@@ -86,6 +86,24 @@ struct CheckInPreviewCard: View {
             }
         })
         .chapterPreviewCard()
+        .contextMenu(menuItems: {
+            Button {
+                
+            } label: {
+                HStack {
+                    Image(systemName: "minus.circle")
+                    Text("Hello")
+                }
+            }
+            Button {
+                
+            } label: {
+                HStack {
+                    Image(systemName: "plus.circle")
+                    Text("World")
+                }
+            }
+        })
         .padding(.trailing)
         .accessibilityLabel("\(checkInTitle), \(checkin.moodLabel.displayValue), \(secondaryText), \(checkin.createdAt.formatted(date: .abbreviated, time: .omitted))")
     }

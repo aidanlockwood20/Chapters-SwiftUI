@@ -3,6 +3,8 @@ import SwiftUI
 struct ChapterPreviewCard: View {
     @Environment(DashboardViewModel.self) private var dashboardViewModel
     
+    @State private var showOptions: Bool = false
+    
     let chapter: Chapter
     
     private var chapterTitle: String {
@@ -85,7 +87,31 @@ struct ChapterPreviewCard: View {
             }
         })
         .chapterPreviewCard()
+        .contextMenu(menuItems: {
+            Button {
+                
+            } label: {
+                HStack {
+                    Image(systemName: "minus.circle")
+                    Text("Hello")
+                }
+            }
+            Button {
+                
+            } label: {
+                HStack {
+                    Image(systemName: "plus.circle")
+                    Text("World")
+                }
+            }
+        })
+
         .padding(.trailing)
         .accessibilityLabel("\(chapterTitle), \(supportingText)")
     }
+}
+
+#Preview {
+    ChapterPreviewCard(chapter: Chapter.sampleData[0])
+        .withPreviewEnvironment()
 }
